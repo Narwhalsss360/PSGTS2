@@ -185,8 +185,7 @@ namespace Connector
 
         private void OnStateReady(byte[] bytes)
         {
-            _fragmented.AddRange(bytes[..(State.SERIALIZED_SIZE - _fragmented.Count)]);
-            CurrentState = State.FromBytes(_fragmented.ToArray());
+            CurrentState = State.FromBytes(bytes);
             _fragmented.Clear();
 
             bool flushed = false;
@@ -201,7 +200,6 @@ namespace Connector
             }
 
             StateReady?.Invoke(this, new(this, flushed));
-
         }
 
         private void DataReceived(object? sender, SerialDataReceivedEventArgs e)
@@ -237,6 +235,7 @@ namespace Connector
                 return;
             }
 
+            _fragmented.AddRange(bytes[..(State.SERIALIZED_SIZE - _fragmented.Count)]);
             OnStateReady(_fragmented.ToArray());
         }
     }
