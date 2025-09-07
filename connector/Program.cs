@@ -142,5 +142,5 @@ psgts2.StateReady += (sender, e) =>
     lastPrint = DateTime.Now;
 };
 
-while (psgts2.Port.IsOpen);
-
+while (psgts2.Port.IsOpen)
+    Thread.Sleep(125);
