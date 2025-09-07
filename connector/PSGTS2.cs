@@ -125,11 +125,10 @@ namespace Connector
             Open(portName);
         }
 
-        public static PSGTS2? Discover(TimeSpan? timeout = null, string[]? ignorePorts = null)
+        public static PSGTS2? Discover(TimeSpan? timeout = null, int openTimeout = 1500, string[]? ignorePorts = null)
         {
             ignorePorts ??= Array.Empty<string>();
-            timeout ??= TimeSpan.FromMilliseconds(1500);
-            const int openTimeout = 1000;
+            timeout ??= TimeSpan.FromMilliseconds(3000);
             List<Task<PSGTS2?>> tasks = new();
             foreach (string portName in SerialPort.GetPortNames())
             {
